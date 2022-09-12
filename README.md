@@ -1,6 +1,6 @@
 # unittest-framework
 
-This repo demonstrate an exaple of the project development with unittest frame work
+This repo holds a demonstration example of a development using a unittest frame work
 
 The recommended directory structure is to separate the test code from development and release code under two different directories
     connectorProject                # development directory
