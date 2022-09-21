@@ -233,7 +233,9 @@ def connector_data_validator(file, columns):
 def local_demo():
 
 
+    #print(dir(dataConnector_kaggleS))
 
+    
     cf = connector_factory(c_type.ssh)
     cf.connect()
     cf.getData()
@@ -250,7 +252,7 @@ def local_demo():
 
     connector_data_validator(f'{wdir}/{files[0]}', columns=['date', 'meantemp', 'humidity', 'wind_speed', 'meanpressure'])
     
-
+    
 
 
 if __name__ == "__main__":
