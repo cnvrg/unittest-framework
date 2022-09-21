@@ -19,5 +19,7 @@ jobs:
         run: pip install -r requirement.txt
       - name: Initialize environment
         run: source setupPyPath.sh
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2.3.1
       - name: Unit test execution
         run: python -m unittest -v
