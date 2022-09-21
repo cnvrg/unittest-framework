@@ -19,4 +19,3 @@ jobs:
         run: pip install -r requirement.txt
       - name: Unit test execution
         run: python -m unittest -v
-        working-directory: ./connectorUnittest
