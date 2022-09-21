@@ -17,5 +17,7 @@ jobs:
         uses: actions/setup-python@v4.2.0
       - name: Install libs
         run: pip install -r requirement.txt
+      - name: Initialize environment
+        run: source setupPyPath.sh
       - name: Unit test execution
         run: python -m unittest -v
