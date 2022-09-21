@@ -17,7 +17,7 @@ class test_connector_factory(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.con_type = c_type.kaggle
+        self.con_type = c_type.ssh
         print(f'setting up tests for {self.con_type} connector')
         self.con = connector_factory(self.con_type)
         self.location = None
@@ -51,7 +51,7 @@ class test_connector_factory_ssh(test_connector_factory):
         
     @classmethod
     def setUpClass(self):
-        self.con_type = c_type.ssh
+        self.con_type = c_type.kaggle
         print(f'setting up tests for {self.con_type} connector')
         self.con = connector_factory(self.con_type)
         self.location = None
