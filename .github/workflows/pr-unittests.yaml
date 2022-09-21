@@ -19,7 +19,10 @@ jobs:
         run: pip install -r requirement.txt
       - name: Initialize environment
         run: source setupPyPath.sh
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2.3.1
+      - name: Initialize ssh keys
+        uses: 7challenger/init-ssh-js@v1
+        with:
+          ssh_private_key: ${{ secrets.PRIV_KEY }}
+          ssh_public_key: ${{ secrets.PUB_KEY }}
       - name: Unit test execution
         run: python -m unittest -v
