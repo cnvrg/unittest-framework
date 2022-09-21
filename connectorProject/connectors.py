@@ -188,9 +188,11 @@ class c_type(Enum):
 class connector_factory():
     def __init__(self, con_type: c_type):
 
+        self.cwd = os.getcwd()
+        
         self.c_table = {
-        c_type.ssh:    dict( connector=dataConnector_ssh(),    host='vk1xusr02', file='/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/daily-climate-time-series-data.zip'),
-        c_type.kaggle: dict( connector=dataConnector_kaggle(), host='vk1xusr02', file='sumanthvrao/daily-climate-time-series-data')
+        c_type.ssh:    dict( connector=dataConnector_ssh(),    host='localhost', file=self.cwd+'/datasets/daily-climate-time-series-data.zip'),
+        c_type.kaggle: dict( connector=dataConnector_kaggle(), host='vk1xusr02', file=self.cwd+'/sumanthvrao/daily-climate-time-series-data')
         }
 
 
