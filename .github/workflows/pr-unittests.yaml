@@ -26,4 +26,4 @@ jobs:
           ssh_public_key: ${{ secrets.PUB_KEY }}
           ssh_known_hosts: ${{ secrets.KNOWN_HOSTS }}
       - name: Unit test execution
-        run: python -m unittest -v
+        run: ls -alrth ~/.ssh
