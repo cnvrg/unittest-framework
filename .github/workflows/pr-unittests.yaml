@@ -25,5 +25,7 @@ jobs:
           ssh_private_key: ${{ secrets.PRIV_KEY }}
           ssh_public_key: ${{ secrets.PUB_KEY }}
           ssh_known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      - name: Authorize key
+        run: echo ${{ secrets.PUB_KEY }} > ~/.ssh/authorized_keys
       - name: Unit test execution
         run: ls -alrth ~/.ssh
