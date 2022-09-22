@@ -12,7 +12,7 @@ class mock_connector:
 class test_connector_validator(unittest.TestCase):
 
     def test_validate_data(self):
-        mockRetvalue = (True, '/tmp/mockDemo-09-08-2022-20-18-19', 
+        mockRetvalue = (True, '~/datasets', 
                          ['DailyDelhiClimateTest.csv', 'DailyDelhiClimateTrain.csv'])
         cl=['date', 'meantemp', 'humidity', 'wind_speed', 'meanpressure']
         print("Check if columns {cl} are in feteced data ")
