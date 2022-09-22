@@ -5,6 +5,6 @@ exclude =
     .git,
     __pycache__,
     __init__.py
-    connectorUnittest
+#    connectorUnittest
     dataset
 max-complexity = 10
