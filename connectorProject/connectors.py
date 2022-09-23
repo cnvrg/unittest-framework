@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from lib2to3.pgen2.token import EQUAL
 import os
 import zipfile
 import re
@@ -190,19 +191,14 @@ class c_type(Enum):
 
 
 class connector_factory:
-    def __init__(self, con_type: c_type):
+    def __init__(self, con_type: c_type, host: str, file: str):
 
         self.c_table = {
             c_type.ssh: dict(
                 connector=dataConnector_ssh(),
-                host="vk1xusr02",
-                file="/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/"
-                "daily-climate-time-series-data.zip",
             ),
             c_type.kaggle: dict(
                 connector=dataConnector_kaggle(),
-                host="vk1xusr02",
-                file="sumanthvrao/daily-climate-time-series-data",
             ),
         }
 
@@ -212,8 +208,8 @@ class connector_factory:
         c_info = self.c_table[con_type]
 
         self.con = c_info["connector"]
-        self.host = c_info["host"]
-        self.remote_file = c_info["file"]
+        self.host = host
+        self.remote_file = file
 
     def connect(self):
         return self.con.connect(self.host)
@@ -243,15 +239,23 @@ def connector_data_validator(file, columns):
 def local_demo():
 
     # print(dir(dataConnector_kaggleS))
+    host = "vk1xusr02"
+    file = (
+        "/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/"
+        "daily-climate-time-series-data.zip"
+    )
 
-    cf = connector_factory(c_type.ssh)
+    cf = connector_factory(c_type.ssh, host=host, file=file)
     cf.connect()
     cf.getData()
     ret_status, wdir, files = cf.postProcessLocalFile()
 
     # print(ret_status   ,wdir, files)
 
-    cf = connector_factory(c_type.kaggle)
+    host = "vk1xusr02"
+    file = "sumanthvrao/daily-climate-time-series-data"
+
+    cf = connector_factory(c_type.kaggle, host=host, file=file)
     cf.connect()
     cf.getData()
     ret_status, wdir, files = cf.postProcessLocalFile()
