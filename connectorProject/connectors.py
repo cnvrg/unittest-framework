@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from fabric import Connection
 import pandas as pd
+
 #  from connectorAbstraction import dataConnector_abc
 
 """
@@ -36,9 +37,9 @@ class dataConnector_abc(ABC):
         return dt.strftime("%m-%d-%Y-%H-%M-%S")
 
     def getTempWorkingDirName(self, prefix, wdir) -> str:
-        return f'{wdir}/{prefix}-{self.getTimeStampStr()}/'
+        return f"{wdir}/{prefix}-{self.getTimeStampStr()}/"
 
-    def makeLocalWorkingDir(self, prefix='wrkTmp', wdir="/tmp") -> str:
+    def makeLocalWorkingDir(self, prefix="wrkTmp", wdir="/tmp") -> str:
         dir_name = self.getTempWorkingDirName(prefix=prefix, wdir=wdir)
         if not os.path.exists(dir_name):
             os.mkdir(dir_name)
@@ -75,16 +76,16 @@ class dataConnector_ssh(dataConnector_abc):
         self.c = Connection(host)
 
         """ Test te connection with a trivial pwd command """
-        with self.c.cd('/tmp'):
-            results = self.c.run('pwd', hide=True)
+        with self.c.cd("/tmp"):
+            results = self.c.run("pwd", hide=True)
         return not results.failed
 
     def getData(self, file):
-        file_name = file.split('/')[-1]
-        self.working_dir = self.makeLocalWorkingDir(prefix='sshTempDir')
+        file_name = file.split("/")[-1]
+        self.working_dir = self.makeLocalWorkingDir(prefix="sshTempDir")
 
         """ get data from ssh host """
-        file_return = f'{self.working_dir}/{file_name}'
+        file_return = f"{self.working_dir}/{file_name}"
         with self.c.cd(self.working_dir):
             results = self.c.get(file, file_return)
             cmd_status = os.path.exists(results.local)
@@ -94,10 +95,12 @@ class dataConnector_ssh(dataConnector_abc):
 
     def postProcessData(self, file):
         with self.c.cd(self.working_dir):
-            results = self.c.local(f'unzip {file}', hide=True)
+            results = self.c.local(f"unzip {file}", hide=True)
             cmd_status = not results.failed
             # print(f'command: {results.command}, results: {results.stdout}')
-            inflatingResults = re.findall(self.resultsPattern['inflatingFiles'], results.stdout)
+            inflatingResults = re.findall(
+                self.resultsPattern["inflatingFiles"], results.stdout
+            )
             pprint.pprint(inflatingResults)
         return cmd_status, self.working_dir, inflatingResults
 
@@ -120,35 +123,37 @@ class dataConnector_kaggle(dataConnector_abc):
         self.c = Connection(host)
 
         """ Test te connection with a trivial pwd command """
-        with self.c.cd('/tmp'):
-            results = self.c.run('pwd', hide=True)
+        with self.c.cd("/tmp"):
+            results = self.c.run("pwd", hide=True)
         return not results.failed
 
     def getData(self, file):
-        file_name = file.split('/')[-1]
-        self.working_dir = self.makeLocalWorkingDir(prefix='kaggleTempDir')
+        file_name = file.split("/")[-1]
+        self.working_dir = self.makeLocalWorkingDir(prefix="kaggleTempDir")
 
         """ return file always is a zip file. To fix:
             parse results class for actual filename. """
 
-        file_return = f'{self.working_dir}/{file_name}.zip'
+        file_return = f"{self.working_dir}/{file_name}.zip"
 
         """ get data from kaggle """
 
-        cmd = f'kaggle datasets download -d {file}'
+        cmd = f"kaggle datasets download -d {file}"
         with self.c.cd(self.working_dir):
             results = self.c.local(cmd, hide=True)
             cmd_status = not results.failed
 
-        print(f'fetched {file_return}')
+        print(f"fetched {file_return}")
         return cmd_status, file_return
 
     def postProcessData(self, file):
         with self.c.cd(self.working_dir):
-            results = self.c.local(f'unzip {file}', hide=True)
+            results = self.c.local(f"unzip {file}", hide=True)
             cmd_status = not results.failed
             # print(f'command: {results.command}, results: {results.stdout}')
-            inflatingResults = re.findall(self.resultsPattern['inflatingFiles'], results.stdout)
+            inflatingResults = re.findall(
+                self.resultsPattern["inflatingFiles"], results.stdout
+            )
             pprint.pprint(inflatingResults)
 
         return cmd_status, self.working_dir, inflatingResults
@@ -164,7 +169,7 @@ class connectorTypeError(Exception):
         self.m = msg
 
     def __str__(self):
-        return f'Unsupport connector: {self.m}! '
+        return f"Unsupport connector: {self.m}! "
 
     def __repr__(self):
         return f"connectoryTypeError: {self.m}"
@@ -174,7 +179,8 @@ class connectorTypeError(Exception):
 
 
 class c_type(Enum):
-    """ Class connector type """
+    """Class connector type"""
+
     ssh = auto()
     kaggle = auto()
     cnn = auto()
@@ -183,28 +189,31 @@ class c_type(Enum):
 """ Wrap connectory classes with a factory class for an easy access """
 
 
-class connector_factory():
+class connector_factory:
     def __init__(self, con_type: c_type):
 
         self.c_table = {
-            c_type.ssh:
-            dict(connector=dataConnector_ssh(),
-                 host='vk1xusr02',
-                 file='/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/'
-                      'daily-climate-time-series-data.zip'),
-            c_type.kaggle:
-            dict(connector=dataConnector_kaggle(),
-                 host='vk1xusr02',
-                 file='sumanthvrao/daily-climate-time-series-data')}
+            c_type.ssh: dict(
+                connector=dataConnector_ssh(),
+                host="vk1xusr02",
+                file="/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/"
+                "daily-climate-time-series-data.zip",
+            ),
+            c_type.kaggle: dict(
+                connector=dataConnector_kaggle(),
+                host="vk1xusr02",
+                file="sumanthvrao/daily-climate-time-series-data",
+            ),
+        }
 
         if con_type not in self.c_table.keys():
-            raise connectorTypeError(f'{con_type} connector is not supported')
+            raise connectorTypeError(f"{con_type} connector is not supported")
 
         c_info = self.c_table[con_type]
 
-        self.con = c_info['connector']
-        self.host = c_info['host']
-        self.remote_file = c_info['file']
+        self.con = c_info["connector"]
+        self.host = c_info["host"]
+        self.remote_file = c_info["file"]
 
     def connect(self):
         return self.con.connect(self.host)
@@ -221,8 +230,8 @@ class connector_factory():
 
 
 def connector_data_validator(file, columns):
-    """ Read fetech results file into panda Dataframe """
-    df = pd.read_csv(file, sep=",", engine='python', index_col=False)
+    """Read fetech results file into panda Dataframe"""
+    df = pd.read_csv(file, sep=",", engine="python", index_col=False)
     # pprint.pprint(df.columns)
 
     return set(columns).issubset(df.columns)
@@ -249,8 +258,10 @@ def local_demo():
 
     print(ret_status, wdir, files)
 
-    connector_data_validator(f'{wdir}/{files[0]}', columns=['date', 'meantemp',
-                             'humidity', 'wind_speed', 'meanpressure'])
+    connector_data_validator(
+        f"{wdir}/{files[0]}",
+        columns=["date", "meantemp", "humidity", "wind_speed", "meanpressure"],
+    )
 
 
 if __name__ == "__main__":

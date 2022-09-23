@@ -7,17 +7,16 @@ from connectorProject.connectors import connector_factory, connectorTypeError, c
 class test_unsupported_connector(unittest.TestCase):
     def test_instantiate_connector(self):
         con_type = c_type.cnn
-        print(f'testing for unsuppported connector type: {con_type}')
+        print(f"testing for unsuppported connector type: {con_type}")
         with self.assertRaises(connectorTypeError):
             connector_factory(con_type)
 
 
 class test_connector_factory(unittest.TestCase):
-
     @classmethod
     def setUpClass(self):
         self.con_type = c_type.ssh
-        print(f'setting up tests for {self.con_type} connector')
+        print(f"setting up tests for {self.con_type} connector")
         self.con = connector_factory(self.con_type)
         self.location = None
 
@@ -44,11 +43,10 @@ class test_connector_factory(unittest.TestCase):
 
 @unittest.skip("Skip due problem with kaggle")
 class test_connector_factory_ssh(test_connector_factory):
-
     @classmethod
     def setUpClass(self):
         self.con_type = c_type.kaggle
-        print(f'setting up tests for {self.con_type} connector')
+        print(f"setting up tests for {self.con_type} connector")
         self.con = connector_factory(self.con_type)
         self.location = None
         super(test_connector_factory, self).setUpClass()
