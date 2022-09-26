@@ -9,6 +9,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from fabric import Connection
 import pandas as pd
+import yaml
+from yaml.loader import SafeLoader
 
 #  from connectorAbstraction import dataConnector_abc
 
@@ -233,10 +235,28 @@ def connector_data_validator(file, columns):
     return set(columns).issubset(df.columns)
 
 
+def read_test_cfg_info(cfg_file: str) -> dict():
+
+    test_cfg = {}
+    with open(cfg_file) as c_info_file:
+        test_cfg = yaml.load(c_info_file, Loader=SafeLoader)
+    return test_cfg
+
+
 """ main """
 
 
 def local_demo():
+    cfg_file = (
+        "/home/net/bbarakat/wrk/blueprint/unittestDemo/connectorUnittest/"
+        "connector_config.yaml"
+    )
+
+    test_cfg = read_test_cfg_info(cfg_file)
+
+    print(test_cfg)
+
+    return
 
     # print(dir(dataConnector_kaggleS))
     host = "vk1xusr02"

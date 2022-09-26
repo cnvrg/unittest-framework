@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from connectorProject.connectors import connector_data_validator
+from connectorProject.connectors import connector_data_validator, read_test_cfg_info
 
 
 class mock_connector:
@@ -13,13 +13,18 @@ class mock_connector:
 
 class test_connector_validator(unittest.TestCase):
     def test_validate_data(self):
+        cfg_file = "connector_config.yaml"
+        test_cfg = read_test_cfg_info(cfg_file)
+
+        connector_info = test_cfg["mock_connector_return"]
+
         mockRetvalue = (
-            True,
-            "/tmp/mockDemo-09-08-2022-20-18-19",
-            ["DailyDelhiClimateTest.csv", "DailyDelhiClimateTrain.csv"],
+            connector_info["status"],
+            connector_info["directory"],
+            connector_info["file_list"],
         )
-        cl = ["date", "meantemp", "humidity", "wind_speed", "meanpressure"]
-        print("Check if columns {cl} are in feteced data ")
+        cl = connector_info["validation_columns"]
+        print("Check if columns {cl} are in fetched data ")
         mock_cl = mock_connector()
         mock_cl.mock_postProcessor = Mock(return_value=mockRetvalue)
         # cf = connector_factory(c_type.ssh)

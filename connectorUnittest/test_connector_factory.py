@@ -2,6 +2,7 @@ import unittest
 import os
 import shutil
 from connectorProject.connectors import connector_factory, connectorTypeError, c_type
+from connectorProject.connectors import read_test_cfg_info
 
 
 class test_unsupported_connector(unittest.TestCase):
@@ -18,12 +19,14 @@ class test_unsupported_connector(unittest.TestCase):
 class test_connector_factory(unittest.TestCase):
     @classmethod
     def setUpClass(self):
+
+        cfg_file = "connector_config.yaml"
+        test_cfg = read_test_cfg_info(cfg_file)
+
+        connector_info = test_cfg["connectors"]["ssh"]
         self.con_type = c_type.ssh
-        host = "vk1xusr02"
-        file = (
-            "/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/"
-            "daily-climate-time-series-data.zip"
-        )
+        host = connector_info["host"]
+        file = connector_info["file"]
         print(f"setting up tests for {self.con_type} connector")
         self.con = connector_factory(self.con_type, host=host, file=file)
         self.location = None
@@ -53,10 +56,13 @@ class test_connector_factory(unittest.TestCase):
 class test_connector_factory_ssh(test_connector_factory):
     @classmethod
     def setUpClass(self):
-        self.con_type = c_type.kaggle
-        host = "vk1xusr02"
-        file = "sumanthvrao/daily-climate-time-series-data"
+        cfg_file = "connector_config.yaml"
+        test_cfg = read_test_cfg_info(cfg_file)
 
+        connector_info = test_cfg["connectors"]["kaggle"]
+        self.con_type = c_type.kaggle
+        host = connector_info["host"]
+        file = connector_info["file"]
         print(f"setting up tests for {self.con_type} connector")
         self.con = connector_factory(self.con_type, host=host, file=file)
         self.location = None

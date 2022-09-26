@@ -1,0 +1,19 @@
+# cfg file for configuring connector test drivers
+
+connectors:
+  ssh:
+    host: "vk1xusr02"
+    file: /home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/daily-climate-time-series-data.zip
+  kaggle:
+    host: "vk1xusr02"
+    file: "sumanthvrao/daily-climate-time-series-data"
+
+mock_connector_return:
+  status: True
+  directory: "/tmp/mockDemo-09-08-2022-20-18-19"
+  file_list: ["DailyDelhiClimateTest.csv", "DailyDelhiClimateTrain.csv"]
+  validation_columns: ["date", "meantemp", "humidity", "wind_speed", "meanpressure"]
+  
+
+  
+    
