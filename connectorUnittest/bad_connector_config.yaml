@@ -3,8 +3,8 @@
 connectors:
   ssh:
     host: "vk1xusr02"
-    file: "/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/""
-          "daily-climate-time-series-data.zip"
+    file: "/home/net/bbarakat/wrk/blueprint/unittestDemo/datasets/"
+           "daily-climate-time-series-data.zip"
   kaggle:
     host: "vk1xusr02"
     file: "sumanthvrao/daily-climate-time-series-data"
