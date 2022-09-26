@@ -247,16 +247,6 @@ def read_test_cfg_info(cfg_file: str) -> dict():
 
 
 def local_demo():
-    cfg_file = (
-        "/home/net/bbarakat/wrk/blueprint/unittestDemo/connectorUnittest/"
-        "connector_config.yaml"
-    )
-
-    test_cfg = read_test_cfg_info(cfg_file)
-
-    print(test_cfg)
-
-    return
 
     # print(dir(dataConnector_kaggleS))
     host = "vk1xusr02"
