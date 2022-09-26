@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-from lib2to3.pgen2.token import EQUAL
 import os
 import zipfile
 import re
