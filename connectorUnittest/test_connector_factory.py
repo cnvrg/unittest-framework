@@ -20,7 +20,9 @@ class test_connector_factory(unittest.TestCase):
     @classmethod
     def setUpClass(self):
 
-        cfg_file = "connector_config.yaml"
+        cfg_path = os.path.dirname(os.path.abspath(__file__))
+        cfg_file = cfg_path + "/" + "connector_config.yaml"
+
         test_cfg = read_test_cfg_info(cfg_file)
 
         connector_info = test_cfg["connectors"]["ssh"]
@@ -53,10 +55,12 @@ class test_connector_factory(unittest.TestCase):
 
 
 @unittest.skip("Skip due problem with kaggle")
-class test_connector_factory_ssh(test_connector_factory):
+class test_connector_factory_kaggle(test_connector_factory):
     @classmethod
     def setUpClass(self):
-        cfg_file = "connector_config.yaml"
+        cfg_path = os.path.dirname(os.path.abspath(__file__))
+        cfg_file = cfg_path + "/" + "connector_config.yaml"
+
         test_cfg = read_test_cfg_info(cfg_file)
 
         connector_info = test_cfg["connectors"]["kaggle"]

@@ -69,10 +69,12 @@ class dataConnector_ssh(dataConnector_abc):
         super().__init__()
         self.resultsPattern = dict(inflatingFiles=r"\s+inflating:\s*(\S+)")
         self.c = None
+        self.local_dir = os.getcwd()
 
     def __del__(self):
         if self.c is not None:
             self.c.close()
+        os.chdir(self.local_dir)
 
     def connect(self, host, user=None):
         self.c = Connection(host)
@@ -115,11 +117,13 @@ class dataConnector_kaggle(dataConnector_abc):
         super().__init__()
         self.resultsPattern = dict(inflatingFiles=r"\s+inflating:\s*(\S+)")
         self.c = None
-
+        self.local_dir = os.getcwd()
+        
     def __del__(self):
         if self.c is not None:
             self.c.close()
-
+        os.chdir(self.local_dir)
+        
     def connect(self, host, user=None):
 
         self.c = Connection(host)
