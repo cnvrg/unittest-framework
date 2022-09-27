@@ -39,7 +39,7 @@ class dataConnector_abc(ABC):
         return dt.strftime("%m-%d-%Y-%H-%M-%S")
 
     def getTempWorkingDirName(self, prefix, wdir) -> str:
-        return f'{wdir}/{prefix}-{self.getTimeStampStr()}/'
+        return f'{wdir}/{prefix}/'
 
     def makeLocalWorkingDir(self, prefix='wrkTmp', wdir="/tmp") -> str:
         dir_name = self.getTempWorkingDirName(prefix=prefix, wdir=wdir)
