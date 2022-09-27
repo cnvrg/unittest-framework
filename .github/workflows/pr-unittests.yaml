@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Test Dataset
-        run: mkdir /tmp/sshTempDir-09-22-2022-20-42-40 & cp -r datasets /tmp/sshTempDir-09-22-2022-20-42-40/.
+        run: mkdir /tmp/sshTempDir & cp -r datasets /tmp/sshTempDir/.
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
       - name: Install libs
