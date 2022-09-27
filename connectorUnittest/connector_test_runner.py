@@ -13,10 +13,12 @@ def connector_suite_1():
     suite = unittest.TestSuite()
 
     # add test cases:
-    suite.addTests(loader.loadTestsFromModule(con_factory))
+    suite.addTests(loader.loadTestsFromTestCase(con_factory.test_unsupported_connector))
+    suite.addTests(loader.loadTestsFromTestCase(con_factory.test_connector_factory))
+    suite.addTests(loader.loadTestsFromTestCase(con_factory.test_connector_factory_kaggle))
     suite.addTests(loader.loadTestsFromModule(con_valid))
     suite.addTests(loader.loadTestsFromModule(yaml_reader))
-
+    
     return suite
 
 

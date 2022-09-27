@@ -54,7 +54,7 @@ class test_connector_factory(unittest.TestCase):
         self.assertTrue(actual)
 
 
-@unittest.skip("Skip due problem with kaggle")
+# @unittest.skip("Skip due problem with kaggle")
 class test_connector_factory_kaggle(test_connector_factory):
     @classmethod
     def setUpClass(self):
