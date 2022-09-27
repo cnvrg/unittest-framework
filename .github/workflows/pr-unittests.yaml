@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Test Dataset
+        run: mkdir sshTempDir-09-22-2022-20-42-40 & cp -r datasets /tmp/sshTempDir-09-22-2022-20-42-40/.
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
       - name: Install libs
