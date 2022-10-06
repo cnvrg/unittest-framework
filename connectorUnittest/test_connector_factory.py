@@ -5,6 +5,16 @@ from connectorProject.connectors import connector_factory, connectorTypeError, c
 from connectorProject.connectors import read_test_cfg_info
 
 
+def setUpModule():
+    """call setup methods common to all test cases defined here"""
+    print(f"setting up module {__name__}")
+
+
+def tearDownModule():
+    """call cleanup methods common to all test cases defined here"""
+    print(f"done! Tearing Donw module {__name__}")
+
+
 class test_unsupported_connector(unittest.TestCase):
     def test_instantiate_connector(self):
         con_type = c_type.cnn
@@ -19,7 +29,6 @@ class test_unsupported_connector(unittest.TestCase):
 class test_connector_factory(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-
         cfg_path = os.path.dirname(os.path.abspath(__file__))
         cfg_file = cfg_path + "/" + "connector_config.yaml"
 
@@ -34,7 +43,7 @@ class test_connector_factory(unittest.TestCase):
         self.location = None
 
     @classmethod
-    def tearDown(self):
+    def tearDownClass(self):
         if self.location is not None:
             shutil.rmtree(self.location)
 
@@ -47,7 +56,7 @@ class test_connector_factory(unittest.TestCase):
         self.assertTrue(os.path.exists(filename))
         self.assertTrue(actual)
 
-    # @unittest.skip( "Skip due problem with kaggle")
+    @unittest.skip("Skip due problem with kaggle")
     def test_data_postprocessing(self):
         actual, location, file_list = self.con.postProcessLocalFile()
         self.location = location

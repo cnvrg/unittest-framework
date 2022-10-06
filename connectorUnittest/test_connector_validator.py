@@ -3,7 +3,16 @@ import os
 from unittest.mock import Mock
 from connectorProject.connectors import connector_data_validator, read_test_cfg_info
 
+def setUpModule():
+    """call setup methods common to all test cases defined here"""
+    print(f"setting up module {__name__}")
 
+
+def tearDownModule():
+    """call cleanup methods common to all test cases defined here"""
+    print(f"done! Tearing Donw module {__name__}")
+    
+    
 class mock_connector:
     def __init__(self):
         self.retvalue = (True, "dir_path", ["file1.csv", "file2.csv"])
