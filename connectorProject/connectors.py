@@ -207,7 +207,7 @@ class connector_factory:
             ),
         }
 
-        if con_type not in self.c_table.keys():
+        if con_type not in self.c_table:
             raise connectorTypeError(f"{con_type} connector is not supported")
 
         c_info = self.c_table[con_type]

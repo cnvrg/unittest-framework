@@ -12,7 +12,7 @@ def setUpModule():
 
 def tearDownModule():
     """call cleanup methods common to all test cases defined here"""
-    print(f"done! Tearing Donw module {__name__}")
+    print(f"done! Tearing Down module {__name__}")
 
 
 class test_unsupported_connector(unittest.TestCase):
@@ -56,14 +56,13 @@ class test_connector_factory(unittest.TestCase):
         self.assertTrue(os.path.exists(filename))
         self.assertTrue(actual)
 
-    @unittest.skip("Skip due problem with kaggle")
     def test_data_postprocessing(self):
         actual, location, file_list = self.con.postProcessLocalFile()
         self.location = location
         self.assertTrue(actual)
 
 
-# @unittest.skip("Skip due problem with kaggle")
+@unittest.skip("Skip due problem with kaggle")
 class test_connector_factory_kaggle(test_connector_factory):
     @classmethod
     def setUpClass(self):

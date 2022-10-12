@@ -10,7 +10,7 @@ def setUpModule():
 
 def tearDownModule():
     """call cleanup methods common to all test cases defined here"""
-    print(f"done! Tearing Donw module {__name__}")
+    print(f"done! Tearing Down module {__name__}")
     
     
 class mock_connector:
